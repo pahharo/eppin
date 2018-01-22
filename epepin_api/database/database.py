@@ -36,28 +36,22 @@ class Database(object):
     def get_requirement(cls, database, requirement_id):
         try:
             requirement = database.Requirements.find_one({'_id': ObjectId(requirement_id)})
-        except NetworkTimeout as e:
-            raise DBConnectionException(e.message)
         except Exception as e:
-            raise DBException(requirement_id, e.message)
+            raise EpepinException(e.message, CODE_DB_ERROR)
         return requirement
 
     @classmethod
     def update_requirement(cls, database, requirement_id, data):
         try:
             requirement = database.Requirements.update_one({'_id':ObjectId(requirement_id)},{'$set': data})
-        except NetworkTimeout as e:
-            raise DBConnectionException(e.message)
         except Exception as e:
-            raise DBException(data, e.message)
+            raise EpepinException(e.message, CODE_DB_ERROR)
         return requirement
 
     @classmethod
     def delete_requirement(cls, database, condition):
         try:
             requirement = database.Requirements.delete_many(condition)
-        except NetworkTimeout as e:
-            raise DBConnectionException(e.message)
         except Exception as e:
-            raise DBException(condition, e.message)
+            raise EpepinException(e.message, CODE_DB_ERROR)
         return requirement

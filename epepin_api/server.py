@@ -8,7 +8,7 @@ import utils
 
 from daemon import Daemon
 from flask import Flask
-from v1.routes import apiv1
+from epepin_api.v1.routes import apiv1
 
 
 app = Flask(__name__)

@@ -38,7 +38,7 @@ class TestDatabase(unittest.TestCase):
     def test_db_connection_timeout(self):
         error_db = Database("7.7.7.7", 22222)
         db = error_db.connection()
-        with self.assertRaises(DBConnectionException):
+        with self.assertRaises(EpepinException):
             error_db.get_requirement(db, '5a61df558c1b672d15bb85f7')
 
 
