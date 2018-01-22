@@ -1,0 +1,9 @@
+{
+   "requirement_id":1,
+   "user_story":"story",
+   "description":"description",
+   "attributes":[
+      "attr1",
+      "attr2"
+   ]
+}

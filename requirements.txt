@@ -1,0 +1,7 @@
+#Dependencies
+flask
+functools32
+jsonschema
+config
+pymongo
+bson

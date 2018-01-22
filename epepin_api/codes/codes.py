@@ -1,0 +1,10 @@
+'''
+Created on Jan 16, 2017
+
+@author: Asgard Team
+'''
+CODE_GET_OK = 200
+CODE_PUT_OK = 200
+CODE_POST_OK = 201
+CODE_DELETE_OK = 204
+CODE_BAD_REQ_ERROR = 400

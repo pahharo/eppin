@@ -1,0 +1,32 @@
+{
+   "code":200,
+   "message":"List Sucessfully",
+   "requirements":[
+      {
+         "requirement_id":1,
+         "user_story":"story",
+         "description":"description",
+         "attributes":[
+            {
+               "attr1":1
+            },
+            {
+               "attr2":2
+            }
+         ]
+      },
+      {
+         "requirement_id":2,
+         "user_story":"story",
+         "description":"description",
+         "attributes":[
+            {
+               "attr1":1
+            },
+            {
+               "attr2":2
+            }
+         ]
+      }
+   ]
+}
