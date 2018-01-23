@@ -20,7 +20,7 @@ class Response:
         return resp
 
     @staticmethod
-    def json_data(code, message, data_response, requirement=None):
+    def json_data(code, message, data_response=None, requirement=None):
         dict_response = {}
         dict_response["code"] = code
         dict_response["message"] = message
@@ -30,16 +30,17 @@ class Response:
 
     @staticmethod
     def fill_dict(data_response, dict_response, requirement=None):
-        if isinstance(data_response, list):
-            dict_response["requirements"] = []
-            for document in data_response:
-                document["_id"] = str(document["_id"])
-                dict_response["requirements"].append(document)
-        else:
-            dict_response["requirements"] = data_response
-        if requirement is not None:
-            if not isinstance(requirement, (str, unicode)):
-                dict_response["requirements"]["_id"] = str(requirement.inserted_id)
+        if data_response is not None:
+            if isinstance(data_response, list):
+                dict_response["requirements"] = []
+                for document in data_response:
+                    document["_id"] = str(document["_id"])
+                    dict_response["requirements"].append(document)
             else:
-                dict_response["requirements"]["_id"] = requirement
-        return dict_response
+                dict_response["requirements"] = data_response
+            if requirement is not None:
+                if not isinstance(requirement, (str, unicode)):
+                    dict_response["requirements"]["_id"] = str(requirement.inserted_id)
+                else:
+                    dict_response["requirements"]["_id"] = requirement
+            return dict_response

@@ -50,9 +50,9 @@ class Database(object):
         return requirement
 
     @classmethod
-    def delete_requirement(cls, database, condition):
+    def delete_requirement(cls, database, requirement_id):
         try:
-            requirement = database.Requirements.delete_many(condition)
+            requirement = database.Requirements.delete_one({'_id': ObjectId(requirement_id)})
         except Exception as e:
             raise DBException(e.message)
         return requirement

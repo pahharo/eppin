@@ -85,3 +85,17 @@ def update_requirement(requirement_id):
         status_code = ex.get_status_code()
         message = ex.get_error_message()
     return Response.json_data(status_code, message, input_data, requirement_id)
+
+
+@apiv1.route('/requirement/<string:requirement_id>', methods=['DELETE'])
+def delete_requirement(requirement_id):
+    status_code = CODE_DELETE_OK
+    message = MSG_DELETE_OK
+    try:
+        db = database_connection()
+        connection = db.connection()
+        db.delete_requirement(connection, requirement_id)
+    except EpepinException as ex:
+        status_code = ex.get_status_code()
+        message = ex.get_error_message()
+    return Response.json_data(status_code, message, None, requirement_id)
