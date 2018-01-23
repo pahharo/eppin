@@ -8,7 +8,7 @@ class EpepinException(Exception):
         self.error_message = error_message
         self.status_code = CODE_SERVICE_UNAVAILABLE
 
-    def __init__(self, error_message, status_code):
+    def __init__(self, status_code, error_message):
         super(EpepinException, self).__init__(error_message)
         self.error_message = error_message
         self.status_code = status_code

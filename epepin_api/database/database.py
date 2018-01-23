@@ -15,7 +15,7 @@ class Database(object):
             client = MongoClient(self.endpoint, self.port, serverSelectionTimeoutMS=5000)
             db = client.Requirement
         except Exception as e:
-            raise DBConnectionException(e.message)
+            DBException(e.message)
         return db
 
     @classmethod
@@ -23,9 +23,9 @@ class Database(object):
         try:
             requirement = database.Requirements.insert_one(data)
         except NetworkTimeout as e:
-            raise DBConnectionException(e.message)
+            raise
         except Exception as e:
-            raise DBException(data, e.message)
+            raise DBException(e.message)
         return requirement
 
     @classmethod
@@ -37,15 +37,16 @@ class Database(object):
         try:
             requirement = database.Requirements.find_one({'_id': ObjectId(requirement_id)})
         except Exception as e:
-            raise EpepinException(e.message, CODE_DB_ERROR)
+            raise DBException(e.message)
         return requirement
 
     @classmethod
     def update_requirement(cls, database, requirement_id, data):
         try:
-            requirement = database.Requirements.update_one({'_id':ObjectId(requirement_id)},{'$set': data})
+            requirement = database.Requirements.update_one({'_id':ObjectId(requirement_id)},
+                                                           {'$set': data})
         except Exception as e:
-            raise EpepinException(e.message, CODE_DB_ERROR)
+            raise DBException(e.message)
         return requirement
 
     @classmethod
@@ -53,5 +54,5 @@ class Database(object):
         try:
             requirement = database.Requirements.delete_many(condition)
         except Exception as e:
-            raise EpepinException(e.message, CODE_DB_ERROR)
+            raise DBException(e.message)
         return requirement
