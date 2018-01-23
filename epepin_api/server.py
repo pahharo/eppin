@@ -20,6 +20,10 @@ class EpepinDaemon(Daemon):
         app.run(epepin_endpoint, epepin_port)
 
 
+def debug():
+    app.run(epepin_endpoint, epepin_port, debug=True, use_reloader=False)
+
+
 def main():
     cfg = utils.get_config()
     global epepin_endpoint
@@ -34,7 +38,8 @@ def main():
             daemon.stop()
         elif 'restart' == sys.argv[1]:
             daemon.restart()
-
+        elif 'debug' == sys.argv[1]:
+            debug()
         elif 'status' == sys.argv[1]:
             pid = daemon.status()
             if not pid:
@@ -42,11 +47,10 @@ def main():
             else:
                 print("EPEPIN API Server Daemon is running [PID=%d]" % pid)
         else:
-
             sys.exit(2)
         sys.exit(0)
     else:
-        print "Usage of EPEPIN API Server: %s start|stop|restart|status" % sys.argv[0]
+        print "Usage of EPEPIN API Server: %s start|stop|restart|status|debug" % sys.argv[0]
         sys.exit(2)
 
 
