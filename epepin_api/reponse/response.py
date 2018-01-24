@@ -5,7 +5,9 @@ Created on Jan 16, 2017
 '''
 from flask import make_response
 import json
-from bson import ObjectId
+from bson import json_util
+from pymongo.cursor import Cursor
+from bson.objectid import ObjectId
 
 class Response:
 
@@ -31,16 +33,36 @@ class Response:
     @staticmethod
     def fill_dict(data_response, dict_response, requirement=None):
         if data_response is not None:
-            if isinstance(data_response, list):
-                dict_response["requirements"] = []
-                for document in data_response:
-                    document["_id"] = str(document["_id"])
-                    dict_response["requirements"].append(document)
-            else:
-                dict_response["requirements"] = data_response
-            if requirement is not None:
-                if not isinstance(requirement, (str, unicode)):
-                    dict_response["requirements"]["_id"] = str(requirement.inserted_id)
-                else:
-                    dict_response["requirements"]["_id"] = requirement
+            Response.create_dict_response(data_response, dict_response,
+                                          requirement)
             return dict_response
+
+    @staticmethod
+    def create_dict_response(data_response, dict_response, requirement):
+        if isinstance(data_response, list):
+            dict_response["requirements"] = []
+            dict_response = Response.add_requirements_to_list(dict_response,
+                                                              data_response)
+        elif isinstance(data_response, Cursor):
+            dict_response["requirements"] = json_util.dumps(data_response)
+        else:
+            dict_response["requirements"] = data_response
+        if requirement is not None:
+            dict_response = Response.add_db_dict_response_to_dict(dict_response,
+                                                                  requirement)
+
+    @staticmethod
+    def add_requirements_to_list(dict_response, data_response):
+        dict_response["requirements"] = []
+        for document in data_response:
+            document["_id"] = str(document["_id"])
+            dict_response["requirements"].append(document)
+        return dict_response
+
+    @staticmethod
+    def add_db_dict_response_to_dict(dict_response, requirement):
+        if isinstance(requirement, (str, unicode)):
+            dict_response["requirements"]["_id"] = requirement
+        elif isinstance(requirement.inserted_id, ObjectId):
+            dict_response["requirements"]["_id"] = str(requirement.inserted_id)
+        return dict_response

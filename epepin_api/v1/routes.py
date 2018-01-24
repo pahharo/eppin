@@ -42,15 +42,17 @@ def get_requirements():
 
 @apiv1.route('/requirement/<string:requirement_id>', methods=['GET'])
 def get_requirement(requirement_id):
+    status_code = CODE_GET_OK
+    message = MSG_GET_OK
+    requirement = None
     try:
         db = database_connection()
         connection = db.connection()
-        requirement = db.get_requirement(connection)
-        json = '{"hello": "%s"}' % requirement_id
-        return Response.json_data(codes.CODE_GET_OK)
-
-    except Exception as ex:
-        return Response.json_data(codes.CODE_BAD_REQ_ERROR)
+        requirement = db.get_requirement(connection, requirement_id)
+    except EpepinException as ex:
+        status_code = ex.get_status_code()
+        message = ex.get_error_message()
+    return Response.json_data(status_code, message, requirement, requirement_id)
 
 
 @apiv1.route('/requirement', methods=['POST'])
