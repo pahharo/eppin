@@ -44,7 +44,7 @@ class TestFunctional(unittest.TestCase):
                         dict_response["requirements"]["_id"])
         self.assertEqual(response.status_code, 200)
 
-    def test_get_requirements(self):
+    def test_get_requirement(self):
         response = requests.post('http://localhost:8085/v1/requirement', None,
                                  {"user_story": "xyz",
                                   "description": "xyz"})

@@ -4,7 +4,7 @@ Created on Jan 16, 2017
 @author: Asgard Team
 '''
 
-from flask import Blueprint
+from flask import Blueprint, render_template
 from flask import request
 import copy
 import io
@@ -16,13 +16,17 @@ import bson
 from epepin_api.exceptions.epepin_exceptions import *
 
 
-apiv1 = Blueprint('apiv1', __name__)
+apiv1 = Blueprint('apiv1', __name__, template_folder="../templates")
 
 
 def database_connection():
     cfg = utils.get_config()
     db = database.Database(cfg.epepin_db_endpoint, cfg.epepin_db_port)
     return db
+
+@apiv1.route('/')
+def showIndex():
+    return render_template('list.html')
 
 
 @apiv1.route('/requirement', methods=['GET'])

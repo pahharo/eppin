@@ -8,7 +8,6 @@ import json
 from bson import json_util
 from pymongo.cursor import Cursor
 from bson.objectid import ObjectId
-
 class Response:
 
     def __init__(self):
@@ -44,7 +43,8 @@ class Response:
             dict_response = Response.add_requirements_to_list(dict_response,
                                                               data_response)
         elif isinstance(data_response, Cursor):
-            dict_response["requirements"] = json_util.dumps(data_response)
+            cursor_dict = json_util.loads(json_util.dumps(data_response))
+            Response.add_requirements_to_list(dict_response, cursor_dict)
         else:
             dict_response["requirements"] = data_response
         if requirement is not None:
