@@ -105,3 +105,10 @@ def delete_requirement(requirement_id):
         status_code = ex.get_status_code()
         message = ex.get_error_message()
     return Response.json_data(status_code, message, None, requirement_id)
+
+@apiv1.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response

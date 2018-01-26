@@ -37,7 +37,7 @@ class TestFunctional(unittest.TestCase):
     def test_get_requirements(self):
         response = requests.post('http://localhost:8085/v1/requirement', None,
                                  {"user_story": "xyz",
-                                  "description": "xyz"})
+                                  "description": "xyz", "attributes": ["attr1", "attr2"]})
         dict_response = json.loads(response._content)
         response = requests.get('http://localhost:8085/v1/requirement', None)
         requests.delete('http://localhost:8085/v1/requirement/%s' %
@@ -47,7 +47,7 @@ class TestFunctional(unittest.TestCase):
     def test_get_requirement(self):
         response = requests.post('http://localhost:8085/v1/requirement', None,
                                  {"user_story": "xyz",
-                                  "description": "xyz"})
+                                  "description": "xyz", "attributes": ["attr1", "attr2"]})
         dict_response = json.loads(response._content)
         response = requests.get('http://localhost:8085/v1/requirement/%s'
                                 %dict_response["requirements"]["_id"], None)
